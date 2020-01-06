@@ -72,7 +72,7 @@ func TestGetAll(t *testing.T) {
 		t.Error("the body should be correct:", string(w.Body.Bytes()))
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	if err := h.CommandHandler.HandleCommand(context.Background(), &domain.Create{
 		ID: id,
 	}); err != nil {
@@ -97,7 +97,7 @@ func TestGetAll(t *testing.T) {
 	if w.Code != http.StatusOK {
 		t.Error("the status should be correct:", w.Code)
 	}
-	if string(w.Body.Bytes()) != `[{"id":"`+id.String()+`","version":2,"items":[{"id":0,"desc":"desc","completed":false}],"created_at":"`+domain.TimeNow().Format(time.RFC3339Nano)+`","updated_at":"`+domain.TimeNow().Format(time.RFC3339Nano)+`"}]` {
+	if string(w.Body.Bytes()) != `[{"id":"`+id+`","version":2,"items":[{"id":0,"desc":"desc","completed":false}],"created_at":"`+domain.TimeNow().Format(time.RFC3339Nano)+`","updated_at":"`+domain.TimeNow().Format(time.RFC3339Nano)+`"}]` {
 		t.Error("the body should be correct:", string(w.Body.Bytes()))
 	}
 }
@@ -119,9 +119,9 @@ func TestCreate(t *testing.T) {
 		t.Log("could not clear DB:", err)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	r := httptest.NewRequest("POST", "/api/todos/create",
-		strings.NewReader(`{"id":"`+id.String()+`"}`))
+		strings.NewReader(`{"id":"`+id+`"}`))
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != http.StatusOK {
@@ -176,7 +176,7 @@ func TestDelete(t *testing.T) {
 		t.Log("could not clear DB:", err)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	if err := h.CommandHandler.HandleCommand(context.Background(), &domain.Create{
 		ID: id,
 	}); err != nil {
@@ -184,7 +184,7 @@ func TestDelete(t *testing.T) {
 	}
 
 	r := httptest.NewRequest("POST", "/api/todos/delete",
-		strings.NewReader(`{"id":"`+id.String()+`"}`))
+		strings.NewReader(`{"id":"`+id+`"}`))
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != http.StatusOK {
@@ -224,7 +224,7 @@ func TestAddItem(t *testing.T) {
 		t.Log("could not clear DB:", err)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	if err := h.CommandHandler.HandleCommand(context.Background(), &domain.Create{
 		ID: id,
 	}); err != nil {
@@ -232,7 +232,7 @@ func TestAddItem(t *testing.T) {
 	}
 
 	r := httptest.NewRequest("POST", "/api/todos/add_item",
-		strings.NewReader(`{"id":"`+id.String()+`", "desc":"desc"}`))
+		strings.NewReader(`{"id":"`+id+`", "desc":"desc"}`))
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != http.StatusOK {
@@ -292,7 +292,7 @@ func TestRemoveItem(t *testing.T) {
 		t.Log("could not clear DB:", err)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	if err := h.CommandHandler.HandleCommand(context.Background(), &domain.Create{
 		ID: id,
 	}); err != nil {
@@ -306,7 +306,7 @@ func TestRemoveItem(t *testing.T) {
 	}
 
 	r := httptest.NewRequest("POST", "/api/todos/remove_item",
-		strings.NewReader(`{"id":"`+id.String()+`", "item_id":0}`))
+		strings.NewReader(`{"id":"`+id+`", "item_id":0}`))
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != http.StatusOK {
@@ -361,7 +361,7 @@ func TestRemoveCompleted(t *testing.T) {
 		t.Log("could not clear DB:", err)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	if err := h.CommandHandler.HandleCommand(context.Background(), &domain.Create{
 		ID: id,
 	}); err != nil {
@@ -388,7 +388,7 @@ func TestRemoveCompleted(t *testing.T) {
 	}
 
 	r := httptest.NewRequest("POST", "/api/todos/remove_completed",
-		strings.NewReader(`{"id":"`+id.String()+`"}`))
+		strings.NewReader(`{"id":"`+id+`"}`))
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != http.StatusOK {
@@ -450,7 +450,7 @@ func TestSetItemDesc(t *testing.T) {
 		t.Log("could not clear DB:", err)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	if err := h.CommandHandler.HandleCommand(context.Background(), &domain.Create{
 		ID: id,
 	}); err != nil {
@@ -464,7 +464,7 @@ func TestSetItemDesc(t *testing.T) {
 	}
 
 	r := httptest.NewRequest("POST", "/api/todos/set_item_desc",
-		strings.NewReader(`{"id":"`+id.String()+`", "desc":"new desc"}`))
+		strings.NewReader(`{"id":"`+id+`", "desc":"new desc"}`))
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != http.StatusOK {
@@ -524,7 +524,7 @@ func TestCheckItem(t *testing.T) {
 		t.Log("could not clear DB:", err)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	if err := h.CommandHandler.HandleCommand(context.Background(), &domain.Create{
 		ID: id,
 	}); err != nil {
@@ -544,7 +544,7 @@ func TestCheckItem(t *testing.T) {
 	}
 
 	r := httptest.NewRequest("POST", "/api/todos/check_item",
-		strings.NewReader(`{"id":"`+id.String()+`", "item_id":1, "checked":true}`))
+		strings.NewReader(`{"id":"`+id+`", "item_id":1, "checked":true}`))
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != http.StatusOK {
@@ -609,7 +609,7 @@ func TestCheckAllItems(t *testing.T) {
 		t.Log("could not clear DB:", err)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	if err := h.CommandHandler.HandleCommand(context.Background(), &domain.Create{
 		ID: id,
 	}); err != nil {
@@ -629,7 +629,7 @@ func TestCheckAllItems(t *testing.T) {
 	}
 
 	r := httptest.NewRequest("POST", "/api/todos/check_all_items",
-		strings.NewReader(`{"id":"`+id.String()+`", "item_id":1, "checked":true}`))
+		strings.NewReader(`{"id":"`+id+`", "item_id":1, "checked":true}`))
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, r)
 	if w.Code != http.StatusOK {

@@ -33,7 +33,7 @@ func TestAggregateHandleCommand(t *testing.T) {
 		return time.Date(2017, time.July, 10, 23, 0, 0, 0, time.Local)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	cases := map[string]struct {
 		agg            *Aggregate
 		cmd            eh.Command
@@ -431,7 +431,7 @@ func TestAggregateApplyEvent(t *testing.T) {
 		return time.Date(2017, time.July, 10, 23, 0, 0, 0, time.Local)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	cases := map[string]struct {
 		agg         *Aggregate
 		event       eh.Event

@@ -74,7 +74,7 @@ func NewEventBus(projectID, appID string, opts ...option.ClientOption) (*EventBu
 // PublishEvent implements the PublishEvent method of the eventhorizon.EventBus interface.
 func (b *EventBus) PublishEvent(ctx context.Context, event eh.Event) error {
 	e := evt{
-		AggregateID:   event.AggregateID().String(),
+		AggregateID:   event.AggregateID(),
 		AggregateType: event.AggregateType(),
 		EventType:     event.EventType(),
 		Version:       event.Version(),
@@ -278,12 +278,8 @@ func (e event) AggregateType() eh.AggregateType {
 }
 
 // AggrgateID implements the AggrgateID method of the eventhorizon.Event interface.
-func (e event) AggregateID() uuid.UUID {
-	id, err := uuid.Parse(e.evt.AggregateID)
-	if err != nil {
-		return uuid.Nil
-	}
-	return id
+func (e event) AggregateID() string {
+	return e.evt.AggregateID
 }
 
 // Version implements the Version method of the eventhorizon.Event interface.

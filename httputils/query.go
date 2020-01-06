@@ -19,7 +19,6 @@ import (
 	"net/http"
 	"path"
 
-	"github.com/google/uuid"
 	eh "github.com/looplab/eventhorizon"
 )
 
@@ -46,13 +45,7 @@ func QueryHandler(repo eh.ReadRepo) http.Handler {
 				return
 			}
 		} else {
-			id, err := uuid.Parse(idStr)
-			if err != nil {
-				http.Error(w, "could not parse ID: "+err.Error(), http.StatusBadRequest)
-				return
-			}
-
-			if data, err = repo.Find(r.Context(), id); err != nil {
+			if data, err = repo.Find(r.Context(), idStr); err != nil {
 				if rrErr, ok := err.(eh.RepoError); ok && rrErr.Err == eh.ErrEntityNotFound {
 					http.Error(w, "could not find item", http.StatusNotFound)
 					return

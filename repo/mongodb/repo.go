@@ -19,7 +19,6 @@ import (
 	"errors"
 
 	"github.com/globalsign/mgo"
-	"github.com/google/uuid"
 
 	eh "github.com/looplab/eventhorizon"
 )
@@ -81,7 +80,7 @@ func (r *Repo) Parent() eh.ReadRepo {
 }
 
 // Find implements the Find method of the eventhorizon.ReadRepo interface.
-func (r *Repo) Find(ctx context.Context, id uuid.UUID) (eh.Entity, error) {
+func (r *Repo) Find(ctx context.Context, id string) (eh.Entity, error) {
 	sess := r.session.Copy()
 	defer sess.Close()
 
@@ -233,7 +232,7 @@ func (r *Repo) Save(ctx context.Context, entity eh.Entity) error {
 	sess := r.session.Copy()
 	defer sess.Close()
 
-	if entity.EntityID() == uuid.Nil {
+	if entity.EntityID() == "" {
 		return eh.RepoError{
 			Err:       eh.ErrCouldNotSaveEntity,
 			BaseErr:   eh.ErrMissingEntityID,
@@ -253,7 +252,7 @@ func (r *Repo) Save(ctx context.Context, entity eh.Entity) error {
 }
 
 // Remove implements the Remove method of the eventhorizon.WriteRepo interface.
-func (r *Repo) Remove(ctx context.Context, id uuid.UUID) error {
+func (r *Repo) Remove(ctx context.Context, id string) error {
 	sess := r.session.Copy()
 	defer sess.Close()
 

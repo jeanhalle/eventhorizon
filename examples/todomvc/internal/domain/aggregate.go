@@ -20,13 +20,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
 	eh "github.com/looplab/eventhorizon"
 	"github.com/looplab/eventhorizon/aggregatestore/events"
 )
 
 func init() {
-	eh.RegisterAggregate(func(id uuid.UUID) eh.Aggregate {
+	eh.RegisterAggregate(func(id string) eh.Aggregate {
 		return &Aggregate{
 			AggregateBase: events.NewAggregateBase(AggregateType, id),
 		}

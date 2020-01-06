@@ -31,7 +31,7 @@ func TestProjector(t *testing.T) {
 		return time.Date(2017, time.July, 10, 23, 0, 0, 0, time.Local)
 	}
 
-	id := uuid.New()
+	id := uuid.New().String()
 	cases := map[string]struct {
 		model         eh.Entity
 		event         eh.Event

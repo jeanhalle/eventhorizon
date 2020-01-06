@@ -22,7 +22,6 @@ import (
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
-	"github.com/google/uuid"
 
 	eh "github.com/looplab/eventhorizon"
 )
@@ -127,7 +126,7 @@ func (s *EventStore) Save(ctx context.Context, events []eh.Event, originalVersio
 	// Either insert a new aggregate or append to an existing.
 	if originalVersion == 0 {
 		aggregate := aggregateRecord{
-			AggregateID: aggregateID.String(),
+			AggregateID: aggregateID,
 			Version:     len(dbEvents),
 			Events:      dbEvents,
 		}
@@ -145,7 +144,7 @@ func (s *EventStore) Save(ctx context.Context, events []eh.Event, originalVersio
 		// since loading the aggregate).
 		if err := sess.DB(s.dbName(ctx)).C("events").Update(
 			bson.M{
-				"_id":     aggregateID.String(),
+				"_id":     aggregateID,
 				"version": originalVersion,
 			},
 			bson.M{
@@ -165,12 +164,12 @@ func (s *EventStore) Save(ctx context.Context, events []eh.Event, originalVersio
 }
 
 // Load implements the Load method of the eventhorizon.EventStore interface.
-func (s *EventStore) Load(ctx context.Context, id uuid.UUID) ([]eh.Event, error) {
+func (s *EventStore) Load(ctx context.Context, id string) ([]eh.Event, error) {
 	sess := s.session.Copy()
 	defer sess.Close()
 
 	var aggregate aggregateRecord
-	err := sess.DB(s.dbName(ctx)).C("events").FindId(id.String()).One(&aggregate)
+	err := sess.DB(s.dbName(ctx)).C("events").FindId(id).One(&aggregate)
 	if err == mgo.ErrNotFound {
 		return []eh.Event{}, nil
 	} else if err != nil {
@@ -212,7 +211,7 @@ func (s *EventStore) Replace(ctx context.Context, event eh.Event) error {
 
 	// First check if the aggregate exists, the not found error in the update
 	// query can mean both that the aggregate or the event is not found.
-	n, err := sess.DB(s.dbName(ctx)).C("events").FindId(event.AggregateID().String()).Count()
+	n, err := sess.DB(s.dbName(ctx)).C("events").FindId(event.AggregateID()).Count()
 	if n == 0 {
 		return eh.ErrAggregateNotFound
 	} else if err != nil {
@@ -232,7 +231,7 @@ func (s *EventStore) Replace(ctx context.Context, event eh.Event) error {
 	// Find and replace the event.
 	err = sess.DB(s.dbName(ctx)).C("events").Update(
 		bson.M{
-			"_id":            event.AggregateID().String(),
+			"_id":            event.AggregateID(),
 			"events.version": event.Version(),
 		},
 		bson.M{
@@ -343,7 +342,7 @@ func newDBEvent(ctx context.Context, event eh.Event) (*dbEvent, error) {
 		RawData:       rawData,
 		Timestamp:     event.Timestamp(),
 		AggregateType: event.AggregateType(),
-		AggregateID:   event.AggregateID().String(),
+		AggregateID:   event.AggregateID(),
 		Version:       event.Version(),
 	}, nil
 }
@@ -355,12 +354,8 @@ type event struct {
 }
 
 // AggrgateID implements the AggrgateID method of the eventhorizon.Event interface.
-func (e event) AggregateID() uuid.UUID {
-	id, err := uuid.Parse(e.dbEvent.AggregateID)
-	if err != nil {
-		return uuid.Nil
-	}
-	return id
+func (e event) AggregateID() string {
+	return e.dbEvent.AggregateID
 }
 
 // AggregateType implements the AggregateType method of the eventhorizon.Event interface.
