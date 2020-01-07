@@ -15,7 +15,7 @@
 package domain
 
 import (
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/jeanhalle/eventhorizon"
 )
 
 func init() {

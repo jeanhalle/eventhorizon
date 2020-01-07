@@ -19,8 +19,8 @@ import (
 	"os"
 	"testing"
 
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/eventstore"
+	eh "github.com/jeanhalle/eventhorizon"
+	"github.com/jeanhalle/eventhorizon/eventstore"
 )
 
 func TestEventStore(t *testing.T) {

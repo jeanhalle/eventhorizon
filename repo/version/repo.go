@@ -19,7 +19,7 @@ import (
 	"time"
 
 	"github.com/jpillora/backoff"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/jeanhalle/eventhorizon"
 )
 
 // Repo is a middleware that adds version checking to a read repository.

@@ -24,11 +24,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/eventhandler/waiter"
-	"github.com/looplab/eventhorizon/repo/mongodb"
+	eh "github.com/jeanhalle/eventhorizon"
+	"github.com/jeanhalle/eventhorizon/eventhandler/waiter"
+	"github.com/jeanhalle/eventhorizon/repo/mongodb"
 
-	"github.com/looplab/eventhorizon/examples/todomvc/internal/domain"
+	"github.com/jeanhalle/eventhorizon/examples/todomvc/internal/domain"
 )
 
 func TestStaticFiles(t *testing.T) {

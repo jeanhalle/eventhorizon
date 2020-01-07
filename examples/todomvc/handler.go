@@ -23,17 +23,17 @@ import (
 	"net/url"
 	"os"
 
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/aggregatestore/events"
-	"github.com/looplab/eventhorizon/commandhandler/aggregate"
-	eventbus "github.com/looplab/eventhorizon/eventbus/local"
-	"github.com/looplab/eventhorizon/eventhandler/projector"
-	eventstore "github.com/looplab/eventhorizon/eventstore/mongodb"
-	"github.com/looplab/eventhorizon/httputils"
-	repo "github.com/looplab/eventhorizon/repo/mongodb"
-	"github.com/looplab/eventhorizon/repo/version"
+	eh "github.com/jeanhalle/eventhorizon"
+	"github.com/jeanhalle/eventhorizon/aggregatestore/events"
+	"github.com/jeanhalle/eventhorizon/commandhandler/aggregate"
+	eventbus "github.com/jeanhalle/eventhorizon/eventbus/local"
+	"github.com/jeanhalle/eventhorizon/eventhandler/projector"
+	eventstore "github.com/jeanhalle/eventhorizon/eventstore/mongodb"
+	"github.com/jeanhalle/eventhorizon/httputils"
+	repo "github.com/jeanhalle/eventhorizon/repo/mongodb"
+	"github.com/jeanhalle/eventhorizon/repo/version"
 
-	"github.com/looplab/eventhorizon/examples/todomvc/internal/domain"
+	"github.com/jeanhalle/eventhorizon/examples/todomvc/internal/domain"
 )
 
 // Handler is a http.Handler for the TodoMVC app.

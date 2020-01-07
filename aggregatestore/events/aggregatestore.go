@@ -18,7 +18,7 @@ import (
 	"context"
 	"errors"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/jeanhalle/eventhorizon"
 )
 
 // ErrInvalidEventStore is when a dispatcher is created with a nil event store.

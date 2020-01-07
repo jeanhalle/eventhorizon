@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/jeanhalle/eventhorizon"
 )
 
 // ErrCouldNotSaveAggregate is when an aggregate could not be saved.

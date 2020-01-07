@@ -18,7 +18,7 @@ import (
 	"context"
 	"sync"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/jeanhalle/eventhorizon"
 )
 
 type namespace string

@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"reflect"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/jeanhalle/eventhorizon"
 )
 
 // CompareEvents compares two events, ignoring their version and timestamp.

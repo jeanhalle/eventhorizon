@@ -22,7 +22,7 @@ import (
 
 	"github.com/google/uuid"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/jeanhalle/eventhorizon"
 )
 
 func TestNewAggregateBase(t *testing.T) {

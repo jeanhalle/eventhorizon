@@ -17,7 +17,7 @@ package validator
 import (
 	"context"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/jeanhalle/eventhorizon"
 )
 
 // NewMiddleware returns a new async handling middleware that validate commands
