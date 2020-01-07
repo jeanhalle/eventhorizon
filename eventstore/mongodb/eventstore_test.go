@@ -29,7 +29,7 @@ func TestEventStore(t *testing.T) {
 
 	if url == "" {
 		// Default to localhost
-		url = "localhost:27017"
+		url = "localhost:30011"
 	}
 
 	store, err := NewEventStore(url, "test")
